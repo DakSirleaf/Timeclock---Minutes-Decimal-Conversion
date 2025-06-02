@@ -1,0 +1,203 @@
+html<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minutes to Decimal Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .calculator {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .time-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .convert-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin: 20px 0;
+        }
+
+        .convert-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .result {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .result h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .decimal-result {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .examples {
+            margin-top: 30px;
+            text-align: left;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .examples h4 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .example-item {
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>⏱️ Minutes to Decimal Calculator</h1>
+        
+        <div class="time-inputs">
+            <div class="input-group">
+                <label for="hours">Hours:</label>
+                <input type="number" id="hours" min="0" value="0" placeholder="0">
+            </div>
+            <div class="input-group">
+                <label for="minutes">Minutes:</label>
+                <input type="number" id="minutes" min="0" max="59" value="0" placeholder="0">
+            </div>
+        </div>
+
+        <button class="convert-btn" onclick="convertTime()">Convert to Decimal</button>
+
+        <div id="result" class="result hidden">
+            <h3>Decimal Time:</h3>
+            <div class="decimal-result" id="decimalResult">0.00</div>
+            <p><strong>Usage:</strong> Perfect for timesheets, payroll, and time tracking!</p>
+        </div>
+
+        <div class="examples">
+            <h4>📝 Quick Examples:</h4>
+            <div class="example-item">• 1 hour 30 minutes = 1.50 hours</div>
+            <div class="example-item">• 2 hours 15 minutes = 2.25 hours</div>
+            <div class="example-item">• 0 hours 45 minutes = 0.75 hours</div>
+            <div class="example-item">• 8 hours 30 minutes = 8.50 hours</div>
+        </div>
+    </div>
+
+    <script>
+        function convertTime() {
+            const hours = parseInt(document.getElementById('hours').value) || 0;
+            const minutes = parseInt(document.getElementById('minutes').value) || 0;
+            
+            // Convert minutes to decimal (minutes / 60)
+            const decimalTime = hours + (minutes / 60);
+            
+            // Display result
+            document.getElementById('decimalResult').textContent = decimalTime.toFixed(2);
+            document.getElementById('result').classList.remove('hidden');
+            
+            // Add a subtle animation
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.transform = 'scale(0.95)';
+            resultDiv.style.opacity = '0.8';
+            
+            setTimeout(() => {
+                resultDiv.style.transform = 'scale(1)';
+                resultDiv.style.opacity = '1';
+                resultDiv.style.transition = 'all 0.3s ease';
+            }, 100);
+        }
+
+        // Allow Enter key to trigger conversion
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                convertTime();
+            }
+        });
+
+        // Auto-convert when values change
+        document.getElementById('hours').addEventListener('input', convertTime);
+        document.getElementById('minutes').addEventListener('input', convertTime);
+
+        // Initial conversion on page load
+        convertTime();
+    </script>
+</body>
+</html>
